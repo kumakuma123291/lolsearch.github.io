@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>League of Legends 適性診断！</title>
+    <style>
+        /* スムーズなフォントと基本的なページスタイル */
+        body {
+            font-family: 'Inter', 'Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.7; /* 行間を少し広めに */
+            margin: 0;
+            padding: 0;
+            background-color: #0a141e; /* LoLのダークテーマに近い背景色 */
+            color: #c8aa6e; /* LoLのゴールド系の文字色 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px; /* 全体にパディングを追加 */
+            box-sizing: border-box; /* パディングとボーダーを要素の幅と高さに含める */
+        }
+
+        /* コンテナのスタイル */
+        .container {
+            max-width: 750px; /* 最大幅を少し広げる */
+            width: 100%; /* 幅を100%にしてレスポンシブ対応 */
+            margin: 20px auto; /* 上下にマージンを追加 */
+            background: #0f1a28; /* コンテナの背景色 */
+            padding: 30px; /* パディングを増やす */
+            border-radius: 12px; /* 角丸を大きく */
+            border: 1px solid #2a3b4f; /* LoL風のボーダー */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); /* より目立つ影 */
+        }
+
+        /* 見出しのスタイル */
+        h1 {
+            color: #f0e6d2; /* LoLの明るいクリーム色 */
+            text-align: center;
+            font-size: 2em; /* フォントサイズを調整 */
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #c89b3c; /* ゴールドのテキストシャドウ */
+        }
+        h1 + p { /* 導入文のスタイル */
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 1.1em;
+            color: #a0927c; /* 少し落ち着いた色 */
+        }
+
+        /* 質問グループのスタイル */
+        .question-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #2a3b4f;
+            border-radius: 8px;
+            background-color: #111f2e; /* 質問グループの背景色 */
+            transition: transform 0.2s ease-in-out; /* ホバー時のアニメーション */
+        }
+        .question-group:hover {
+            transform: translateY(-3px); /* 少し浮き上がる効果 */
+        }
+
+        /* 質問文のスタイル */
+        .question-group p {
+            font-weight: 600; /* 少し太字に */
+            margin-bottom: 15px;
+            color: #c8aa6e;
+            font-size: 1.15em; /* フォントサイズを調整 */
+        }
+
+        /* ラジオボタンのラベルスタイル */
+        .question-group label {
+            display: block;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #1a2838; /* ラベルの背景色 */
+            transition: background-color 0.3s ease;
+            border: 1px solid transparent; /* ホバー時のボーダー用 */
+        }
+        .question-group label:hover {
+            background-color: #203348; /* ホバー時の背景色 */
+            border-color: #c8aa6e;
+        }
+
+        /* ラジオボタン自体のスタイル */
+        .question-group input[type="radio"] {
+            margin-right: 12px;
+            accent-color: #c89b3c; /* ラジオボタンの色をLoL風に */
+            transform: scale(1.2); /* ラジオボタンを少し大きく */
+        }
+
+        /* ボタンのスタイル */
+        button { /* 診断結果を見るボタン */
+            display: block;
+            width: 100%;
+            padding: 15px 20px; /* パディングを調整 */
+            background: linear-gradient(145deg, #c89b3c, #785a28); /* LoL風のグラデーション */
+            color: #0a141e; /* ボタンテキストの色を濃く */
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em; /* フォントサイズを調整 */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase; /* 大文字に */
+            letter-spacing: 1px; /* 文字間隔 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        button:hover {
+            background: linear-gradient(145deg, #e0b65b, #906c32); /* ホバー時のグラデーション */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            transform: translateY(-2px); /* 少し浮き上がる */
+        }
+        button:active {
+            transform: translateY(0px); /* クリック時のエフェクト */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* 結果表示エリアのスタイル */
+        #resultArea {
+            margin-top: 35px;
+            padding: 25px;
+            border: 2px solid #c89b3c; /* ゴールドのボーダー */
+            border-radius: 8px;
+            background-color: #111f2e; /* 結果エリアの背景色 */
+            animation: fadeIn 0.5s ease-in-out; /* フェードインアニメーション */
+        }
+        #resultArea h2 {
+            color: #f0e6d2;
+            text-align: center;
+            font-size: 1.8em; /* フォントサイズを調整 */
+            margin-bottom: 20px;
+            text-shadow: 0 0 8px #c89b3c;
+        }
+        #resultArea p { /* 汎用的なpタグのスタイル */
+            color: #a0927c;
+            font-size: 1.1em;
+            margin-bottom: 15px; /* 各段落間のマージン */
+        }
+        #resultIntro, #resultSingleDetail, #resultMainMessage { /* 個別のIDを持つpタグにも適用 */
+             color: #a0927c;
+             font-size: 1.1em;
+             margin-bottom: 15px;
+        }
+
+        #resultCallToAction { /* JavaScriptで内容を設定する要素のID */
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 25px; /* 上のマージンを少し増やす */
+            margin-bottom: 30px; /* 画像とのスペース確保のためマージン追加 */
+            color: #f0e6d2;
+        }
+
+        /* 追加コンテンツ（画像と公式サイトボタン）のスタイル */
+        .extra-content {
+            /* text-align: center;  Flexboxを使用するためコメントアウトまたは削除 */
+            display: flex; /* Flexboxコンテナとして設定 */
+            flex-direction: column; /* 子要素を縦方向に並べる */
+            align-items: center; /* 子要素を水平方向の中央に配置 */
+            margin-top: 25px; /* 上の要素とのスペース */
+        }
+
+        #lolImage {
+            max-width: 100%; /* 親要素の幅に収まるように */
+            height: auto; /* アスペクト比を維持 */
+            border-radius: 8px; /* 角丸 */
+            margin-bottom: 25px; /* ボタンとのスペース */
+            border: 1px solid #2a3b4f; /* LoL風のボーダー */
+            background-color: #0a141e; /* 画像読み込み失敗時の背景色 */
+        }
+
+        .official-site-button {
+            display: inline-block; /* ボタンの幅を内容に合わせる */
+            padding: 12px 25px;
+            background: linear-gradient(145deg, #0397ab, #005a6b); /* 異なる色のグラデーション */
+            color: #e6e6e6; /* 明るいテキスト色 */
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none; /* リンクの下線を消す */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .official-site-button:hover {
+            background: linear-gradient(145deg, #03a9c4, #006f82);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            transform: translateY(-2px);
+            color: #fff;
+        }
+        .official-site-button:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+
+        /* フェードインアニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* レスポンシブデザイン調整 */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .question-group p {
+                font-size: 1.05em;
+            }
+            button, .official-site-button { /* 公式サイトボタンも対象に */
+                font-size: 1.1em;
+            }
+             #resultArea h2 {
+                font-size: 1.5em;
+            }
+            #resultArea p, #resultIntro, #resultSingleDetail, #resultMainMessage, #resultCallToAction { /* レスポンシブでもフォントサイズ調整 */
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>League of Legends 適性診断！<br>〜あなたに眠るサモナーの才能〜</h1>
+        <p>
+            League of Legendsにあなたが向いているかどうか判断するサイトです
+        </p>
+
+        <form id="lolQuiz">
+            <div class="question-group">
+                <p>質問1：新しいことに挑戦し、戦略を練って目標を達成することに喜びを感じますか？</p>
+                <label><input type="radio" name="q1" value="a" required> はい、大好きです！ 試行錯誤しながら成長していく過程はワクワクします。</label>
+                <label><input type="radio" name="q1" value="b"> どちらかと言えば、はい。目標を立ててクリアしていくのは達成感があります。</label>
+            </div>
+
+            <div class="question-group">
+                <p>質問2：仲間と協力して、共通の目標に向かって力を合わせるプレイスタイルは魅力的だと思いますか？</p>
+                <label><input type="radio" name="q2" value="a" required> はい、とても！ チームで勝利を掴んだ時の喜びは格別だと思います。</label>
+                <label><input type="radio" name="q2" value="b"> どちらかと言えば、はい。一人で黙々とやるより、誰かと一緒に何かを成し遂げる方が好きです。</label>
+            </div>
+
+            <div class="question-group">
+                <p>質問3：個性豊かなキャラクターや、それぞれ異なる能力を使いこなすことに興味がありますか？</p>
+                <label><input type="radio" name="q3" value="a" required> はい、すごく！ たくさんの選択肢の中から、自分に合ったスタイルを見つけるのが楽しそうです。</label>
+                <label><input type="radio" name="q3" value="b"> どちらかと言えば、はい。色々なキャラクターを試して、お気に入りを見つけたいです。</label>
+            </div>
+
+            <div class="question-group">
+                <p>質問4：時には真剣勝負でライバルと競い合い、自分のスキルを試してみたいと思いますか？</p>
+                <label><input type="radio" name="q4" value="a" required> はい、燃えます！ 自分の力を試して、もっと強くなりたいです。</label>
+                <label><input type="radio" name="q4" value="b"> どちらかと言えば、はい。適度な競争は、ゲームをより面白くするスパイスだと思います。</label>
+            </div>
+
+            <div class="question-group">
+                <p>質問5：ゲームがアップデートで進化し続け、新しい発見や挑戦が待っている環境は好きですか？</p>
+                <label><input type="radio" name="q5" value="a" required> はい、最高です！ いつも新鮮な気持ちでプレイできるのは素晴らしいと思います。</label>
+                <label><input type="radio" name="q5" value="b"> どちらかと言えば、はい。飽きずに長く楽しめるゲームを探しています。</label>
+            </div>
+
+            <button type="button" onclick="showResult()">診断結果を見る</button>
+        </form>
+
+        <div id="resultArea" style="display:none;">
+            <h2 id="resultTitle"></h2>
+            <p id="resultIntro"></p>
+            <p id="resultSingleDetail"></p>
+            <p id="resultMainMessage"></p>
+            <p id="resultCallToAction"></p>
+            <div class="extra-content">
+                <img id="lolImage" src="https://www.4gamer.net/games/073/G007372/20240122056/TN/001.jpg" alt="League of Legends イメージ" onerror="this.style.display='none'; console.error('画像の読み込みに失敗しました。'); this.src='https://placehold.co/600x300/0a141e/c8aa6e?text=画像読込エラー';">
+                <a href="https://www.leagueoflegends.com/ja-jp/" target="_blank" rel="noopener noreferrer" class="official-site-button">公式サイトへ</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 結果を表示する関数
+        function showResult() {
+            const form = document.getElementById('lolQuiz');
+            const questions = ['q1', 'q2', 'q3', 'q4', 'q5'];
+            let allAnswered = true;
+            let score = 0;
+
+            // 全ての質問に回答があるか確認し、スコアを計算
+            for (const qName of questions) {
+                const radioGroup = form.elements[qName];
+                if (radioGroup && radioGroup.value === '') { // 値が空なら未選択
+                    allAnswered = false;
+                    break;
+                }
+                if (radioGroup.value === 'a') {
+                    score += 2; // 'a'の選択肢は2点
+                } else if (radioGroup.value === 'b') {
+                    score += 1; // 'b'の選択肢は1点
+                }
+            }
+
+            if (allAnswered) {
+                // 結果表示エリアの各要素を取得
+                const resultDiv = document.getElementById('resultArea');
+                const resultTitleElem = document.getElementById('resultTitle');
+                const resultIntroElem = document.getElementById('resultIntro');
+                const resultSingleDetailElem = document.getElementById('resultSingleDetail');
+                const resultMainMessageElem = document.getElementById('resultMainMessage');
+                const resultCallToActionElem = document.getElementById('resultCallToAction');
+
+                // スコアに基づいて結果を設定
+                let titleText = '';
+                let introText = '';
+                let singleDetailText = '';
+                let mainMessageText = '';
+                let callToActionText = '';
+
+                if (score === 10) { // スコア 10: 完璧！選ばれしサモナー！
+                    titleText = '診断結果：完璧！あなたは選ばれしサモナーです！';
+                    introText = '驚異的な適性です！あなたの情熱、戦略的思考、チームへの貢献意欲は、まさにLeague of Legendsのトッププレイヤーの資質そのものです。';
+                    singleDetailText = '新しい挑戦を心から楽しみ、仲間との協力を至上の喜びとし、多様な戦略やキャラクターを深く探求するあなたの姿勢は、サモナーズリフトで伝説を築くために不可欠な要素です。競争を恐れず、常に進化し続ける環境を愛するあなたは、LoLのダイナミックな世界で最高の輝きを放つでしょう。';
+                    mainMessageText = 'あなたの才能はLoLの世界で計り知れない可能性を秘めています。今こそ、その力を解き放ち、歴史に名を刻む時です！';
+                    callToActionText = '今すぐサモナーズリフトへ！あなたの伝説が始まります！';
+                } else if (score >= 8) { // スコア 8-9: 素晴らしい才能！
+                    titleText = '診断結果：素晴らしい才能！LoLの世界があなたを待っています！';
+                    introText = '非常に高い適性をお持ちです！あなたの持つ多くの強みが、League of Legendsで大いに活かされることでしょう。';
+                    singleDetailText = '挑戦を楽しむ心、チームワークを重んじる姿勢、多様なキャラクターへの興味、そして健全な競争心と成長意欲。これらはLoLを深く楽しむための重要な要素であり、あなたはそれらをバランス良く備えています。進化し続けるゲーム環境も、あなたにとっては常に新しい刺激となるでしょう。';
+                    mainMessageText = 'あなたのゲーマースキルはLoLでさらに磨かれ、仲間と共に数々の勝利を掴むことができるはずです。';
+                    callToActionText = 'さあ、サモナーズリフトであなたの実力を試しましょう！';
+                } else if (score >= 6) { // スコア 6-7: LoL向き！楽しめる素質あり！
+                    titleText = '診断結果：LoL向き！楽しめる素質は十分にあります！';
+                    introText = '良いですね！League of Legendsを楽しむための多くの適性が見受けられます。きっとあなたに合った楽しみ方が見つかるはずです。';
+                    singleDetailText = '目標達成への意欲、仲間との協力、新しいことへの興味、そして適度な競争心。これらはLoLの基本的な楽しさを体験するために役立ちます。ゲームのアップデートによる変化も、新鮮な気持ちでプレイし続ける助けとなるでしょう。';
+                    mainMessageText = 'LoLは奥深いゲームですが、あなたの持つポジティブな姿勢があれば、きっと多くの発見と喜びがあるでしょう。';
+                    callToActionText = 'まずは気軽にプレイして、LoLの魅力を体験してみてください！';
+                } else if (score >= 4) { // スコア 4-5: 試してみる価値あり！新しい扉が開くかも？
+                    titleText = '診断結果：試してみる価値あり！LoLで新しい扉が開くかもしれません。';
+                    introText = 'League of Legendsの楽しさに触れるきっかけが見つかるかもしれません。いくつかの側面で興味深い点が見られます。';
+                    singleDetailText = '目標を立ててクリアすることや、新しいキャラクターに触れることに少しでも興味があれば、LoLの世界はあなたに新しい刺激を与えてくれる可能性があります。チームでの協力や戦略的な側面は、最初は難しく感じるかもしれませんが、少しずつ慣れていくことで楽しさが見えてくることもあります。';
+                    mainMessageText = '焦らず自分のペースで、LoLの広大な世界を探検してみてはいかがでしょうか。意外な発見があるかもしれません。';
+                    callToActionText = 'チュートリアルや友達とのプレイから、気軽に始めてみましょう！';
+                } else { // スコア 0-3: じっくり自分のペースで！LoLの別の楽しみ方も？
+                    titleText = '診断結果：じっくり自分のペースで！LoLには色々な楽しみ方があります。';
+                    introText = 'もしかしたら、LoLの競技的な側面よりも、他の要素に魅力を感じるかもしれませんね。';
+                    singleDetailText = 'LoLは競技性の高いゲームとして知られていますが、魅力的なキャラクターや世界観、友達と一緒に遊ぶ楽しさなど、様々な側面があります。もし競争や複雑な戦略があまり得意でなくても、キャラクターのカスタマイズや、特定のゲームモードをのんびり楽しむといった関わり方も可能です。';
+                    mainMessageText = 'LoLの全てがあなたに合うとは限りませんが、広大なコンテンツの中から、あなたなりの楽しみ方を見つけることもできるかもしれません。';
+                    callToActionText = 'プレッシャーを感じず、まずはLoLの世界観やキャラクターに触れてみるのはいかがですか？';
+                }
+
+                // HTML要素に内容を設定
+                resultTitleElem.textContent = titleText;
+                resultIntroElem.textContent = introText;
+                resultSingleDetailElem.textContent = singleDetailText;
+                resultMainMessageElem.textContent = mainMessageText;
+                resultCallToActionElem.textContent = callToActionText;
+
+                // 全ての質問に回答があれば結果を表示
+                resultDiv.style.display = 'block';
+                // 結果表示エリアまでスムーズにスクロール
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } else {
+                // 未回答の質問があればアラートを表示
+                alert('すべての質問に回答してください。');
+            }
+        }
+    </script>
+</body>
+</html>
