@@ -243,33 +243,33 @@
 
         <form id="lolQuiz">
             <div class="question-group">
-                <p>質問1：新しいことに挑戦し、戦略を練って目標を達成することに喜びを感じますか？</p>
-                <label><input type="radio" name="q1" value="a" required> はい、大好きです！ 試行錯誤しながら成長していく過程はワクワクします。</label>
-                <label><input type="radio" name="q1" value="b"> どちらかと言えば、はい。目標を立ててクリアしていくのは達成感があります。</label>
+                <p>質問1：複雑なルールを学び、状況に応じて戦略を柔軟に変えていくことに強い興味がありますか？</p>
+                <label><input type="radio" name="q1" value="a" required> はい、そのような知的な挑戦は非常に魅力的です。</label>
+                <label><input type="radio" name="q1" value="b"> いいえ、もっとシンプルで直感的に楽しめる方が好きです。</label>
             </div>
 
             <div class="question-group">
-                <p>質問2：仲間と協力して、共通の目標に向かって力を合わせるプレイスタイルは魅力的だと思いますか？</p>
-                <label><input type="radio" name="q2" value="a" required> はい、とても！ チームで勝利を掴んだ時の喜びは格別だと思います。</label>
-                <label><input type="radio" name="q2" value="b"> どちらかと言えば、はい。一人で黙々とやるより、誰かと一緒に何かを成し遂げる方が好きです。</label>
+                <p>質問2：チームメンバーと密に連携し、時には自分の役割を犠牲にしてでもチームの勝利に貢献することにやりがいを感じますか？</p>
+                <label><input type="radio" name="q2" value="a" required> はい、チームでの勝利は何よりも重要だと思います。</label>
+                <label><input type="radio" name="q2" value="b"> いいえ、どちらかというと自分のペースで自由にプレイしたいです。</label>
             </div>
 
             <div class="question-group">
-                <p>質問3：個性豊かなキャラクターや、それぞれ異なる能力を使いこなすことに興味がありますか？</p>
-                <label><input type="radio" name="q3" value="a" required> はい、すごく！ たくさんの選択肢の中から、自分に合ったスタイルを見つけるのが楽しそうです。</label>
-                <label><input type="radio" name="q3" value="b"> どちらかと言えば、はい。色々なキャラクターを試して、お気に入りを見つけたいです。</label>
+                <p>質問3：160体以上いるキャラクターの能力や相性を覚え、状況に合わせて使い分けることに面白みを感じますか？</p>
+                <label><input type="radio" name="q3" value="a" required> はい、多くの選択肢から最適なものを見つけ出すのは楽しいです。</label>
+                <label><input type="radio" name="q3" value="b"> いいえ、覚えることが多すぎるのは少し負担に感じます。</label>
             </div>
 
             <div class="question-group">
-                <p>質問4：時には真剣勝負でライバルと競い合い、自分のスキルを試してみたいと思いますか？</p>
-                <label><input type="radio" name="q4" value="a" required> はい、燃えます！ 自分の力を試して、もっと強くなりたいです。</label>
-                <label><input type="radio" name="q4" value="b"> どちらかと言えば、はい。適度な競争は、ゲームをより面白くするスパイスだと思います。</label>
+                <p>質問4：勝敗がつく対人戦で、自分のスキルを試し、負けた場合は原因を分析して次に活かすというサイクルに意欲的ですか？</p>
+                <label><input type="radio" name="q4" value="a" required> はい、競争を通じて成長していくことに大きな価値を感じます。</label>
+                <label><input type="radio" name="q4" value="b"> いいえ、勝敗にこだわらず、もっと気軽に楽しみたいです。</label>
             </div>
 
             <div class="question-group">
-                <p>質問5：ゲームがアップデートで進化し続け、新しい発見や挑戦が待っている環境は好きですか？</p>
-                <label><input type="radio" name="q5" value="a" required> はい、最高です！ いつも新鮮な気持ちでプレイできるのは素晴らしいと思います。</label>
-                <label><input type="radio" name="q5" value="b"> どちらかと言えば、はい。飽きずに長く楽しめるゲームを探しています。</label>
+                <p>質問5：ゲームのバランス調整や新要素の追加が頻繁に行われ、その都度新しい知識や戦略を学ぶ必要がある環境を楽しめますか？</p>
+                <label><input type="radio" name="q5" value="a" required> はい、常に変化がある方が飽きずに楽しめます。</label>
+                <label><input type="radio" name="q5" value="b"> いいえ、一度覚えたルールや戦略で長く遊びたいです。</label>
             </div>
 
             <button type="button" onclick="showResult()">診断結果を見る</button>
@@ -306,7 +306,7 @@
                 if (radioGroup.value === 'a') {
                     score += 2; // 'a'の選択肢は2点
                 } else if (radioGroup.value === 'b') {
-                    score += 1; // 'b'の選択肢は1点
+                    score += 0; // 'b'の選択肢は0点 (明確化のため)
                 }
             }
 
@@ -332,25 +332,25 @@
                     singleDetailText = '新しい挑戦を心から楽しみ、仲間との協力を至上の喜びとし、多様な戦略やキャラクターを深く探求するあなたの姿勢は、サモナーズリフトで伝説を築くために不可欠な要素です。競争を恐れず、常に進化し続ける環境を愛するあなたは、LoLのダイナミックな世界で最高の輝きを放つでしょう。';
                     mainMessageText = 'あなたの才能はLoLの世界で計り知れない可能性を秘めています。今こそ、その力を解き放ち、歴史に名を刻む時です！';
                     callToActionText = '今すぐサモナーズリフトへ！あなたの伝説が始まります！';
-                } else if (score >= 8) { // スコア 8-9: 素晴らしい才能！
+                } else if (score >= 8) { // スコア 8-9 (実際には8点のみ): 素晴らしい才能！
                     titleText = '診断結果：素晴らしい才能！LoLの世界があなたを待っています！';
                     introText = '非常に高い適性をお持ちです！あなたの持つ多くの強みが、League of Legendsで大いに活かされることでしょう。';
                     singleDetailText = '挑戦を楽しむ心、チームワークを重んじる姿勢、多様なキャラクターへの興味、そして健全な競争心と成長意欲。これらはLoLを深く楽しむための重要な要素であり、あなたはそれらをバランス良く備えています。進化し続けるゲーム環境も、あなたにとっては常に新しい刺激となるでしょう。';
                     mainMessageText = 'あなたのゲーマースキルはLoLでさらに磨かれ、仲間と共に数々の勝利を掴むことができるはずです。';
                     callToActionText = 'さあ、サモナーズリフトであなたの実力を試しましょう！';
-                } else if (score >= 6) { // スコア 6-7: LoL向き！楽しめる素質あり！
+                } else if (score >= 6) { // スコア 6-7 (実際には6点のみ) : LoL向き！楽しめる素質あり！
                     titleText = '診断結果：LoL向き！楽しめる素質は十分にあります！';
                     introText = '良いですね！League of Legendsを楽しむための多くの適性が見受けられます。きっとあなたに合った楽しみ方が見つかるはずです。';
                     singleDetailText = '目標達成への意欲、仲間との協力、新しいことへの興味、そして適度な競争心。これらはLoLの基本的な楽しさを体験するために役立ちます。ゲームのアップデートによる変化も、新鮮な気持ちでプレイし続ける助けとなるでしょう。';
                     mainMessageText = 'LoLは奥深いゲームですが、あなたの持つポジティブな姿勢があれば、きっと多くの発見と喜びがあるでしょう。';
                     callToActionText = 'まずは気軽にプレイして、LoLの魅力を体験してみてください！';
-                } else if (score >= 4) { // スコア 4-5: 試してみる価値あり！新しい扉が開くかも？
+                } else if (score >= 4) { // スコア 4-5 (実際には4点のみ): 試してみる価値あり！新しい扉が開くかも？
                     titleText = '診断結果：試してみる価値あり！LoLで新しい扉が開くかもしれません。';
                     introText = 'League of Legendsの楽しさに触れるきっかけが見つかるかもしれません。いくつかの側面で興味深い点が見られます。';
                     singleDetailText = '目標を立ててクリアすることや、新しいキャラクターに触れることに少しでも興味があれば、LoLの世界はあなたに新しい刺激を与えてくれる可能性があります。チームでの協力や戦略的な側面は、最初は難しく感じるかもしれませんが、少しずつ慣れていくことで楽しさが見えてくることもあります。';
                     mainMessageText = '焦らず自分のペースで、LoLの広大な世界を探検してみてはいかがでしょうか。意外な発見があるかもしれません。';
                     callToActionText = 'チュートリアルや友達とのプレイから、気軽に始めてみましょう！';
-                } else { // スコア 0-3: じっくり自分のペースで！LoLの別の楽しみ方も？
+                } else { // スコア 0-3 (実際には0点または2点): じっくり自分のペースで！LoLの別の楽しみ方も？
                     titleText = '診断結果：じっくり自分のペースで！LoLには色々な楽しみ方があります。';
                     introText = 'もしかしたら、LoLの競技的な側面よりも、他の要素に魅力を感じるかもしれませんね。';
                     singleDetailText = 'LoLは競技性の高いゲームとして知られていますが、魅力的なキャラクターや世界観、友達と一緒に遊ぶ楽しさなど、様々な側面があります。もし競争や複雑な戦略があまり得意でなくても、キャラクターのカスタマイズや、特定のゲームモードをのんびり楽しむといった関わり方も可能です。';
