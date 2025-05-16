@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プレミアム ゲームセレクション</title>
+    <style>
+        /* 基本スタイル */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f7f6; /* 非常に薄いグレー背景 */
+            color: #4A4A4A; /* やや濃いめのグレー */
+            line-height: 1.6;
+            overflow-x: hidden; /* 横スクロール防止 */
+        }
+
+        .container-fluid {
+            width: 100%;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* ヘッダー */
+        .header {
+            background-color: #fff; /* ホワイト背景 */
+            color: #007B7F; /* 深いアクアブルー */
+            padding: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 1000; 
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.9em;
+            font-weight: bold;
+            color: #007B7F;
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* 検索フォーム */
+        .search-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-form input[type="text"] {
+            padding: 10px 15px;
+            border: 1px solid #DAA520; /* ゴールド系ボーダー */
+            border-radius: 20px 0 0 20px;
+            font-size: 0.95em;
+            outline: none;
+            width: 200px; /* 幅を調整 */
+            transition: border-color 0.3s ease;
+        }
+        .search-form input[type="text"]:focus {
+            border-color: #007B7F;
+        }
+
+        .search-form button {
+            padding: 10px 18px;
+            background-color: #DAA520; /* ゴールド系背景 */
+            color: #fff;
+            border: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease;
+        }
+        .search-form button:hover {
+            background-color: #b8860b; /* DarkGoldenrod */
+        }
+
+
+        #openDiagnosisModalBtn {
+            background-color: #007B7F; /* 深いアクアブルー */
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        #openDiagnosisModalBtn:hover {
+            background-color: #005f5f; /* さらに濃いアクアブルー */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* メインコンテンツ */
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2em;
+            color: #005f5f; 
+            margin-bottom: 40px;
+            font-weight: 300; /* 少し細めに */
+        }
+
+        .game-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); 
+            gap: 30px; 
+            position: relative; 
+        }
+        
+        .game-card {
+            background-color: #fff;
+            border-radius: 12px; 
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden; /* ボタンがはみ出ないように */
+            display: flex; 
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; /* ボタンのabsolute配置の基準 */
+        }
+        
+        .game-card.lol-mouse-track { 
+            position: fixed; 
+            width: 320px; 
+            z-index: 1001; 
+            transition: top 0.05s linear, left 0.05s linear, transform 0.05s linear; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+        }
+
+        .game-card:not(.lol-mouse-track):hover { 
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .game-card img.game-image {
+            width: 100%;
+            height: 170px; 
+            object-fit: cover;
+        }
+
+        .game-card-content {
+            padding: 25px; 
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative; 
+        }
+
+        .game-card-content h3 {
+            font-size: 1.5em;
+            color: #005f5f;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .game-card-content p {
+            font-size: 0.98em;
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .details-button {
+            display: inline-block;
+            background-color: #00A0A0; 
+            color: #fff;
+            padding: 12px 22px; 
+            border-radius: 25px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease, left 0.05s linear, top 0.05s linear; 
+            margin-top: auto; 
+            position: relative; 
+            left: auto; 
+            bottom: auto; 
+        }
+        
+        .game-card.lol-mouse-track .details-button {
+            position: absolute; 
+            z-index: 1002; 
+            pointer-events: auto !important; 
+            margin-top: 0; 
+        }
+
+
+        .details-button:hover {
+            background-color: #007B7F;
+        }
+        
+        .hidden-card { 
+            display: none !important;
+        }
+
+        /* フッター */
+        .footer {
+            background-color: #e9ecef; 
+            color: #6c757d; 
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 50px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        /* モーダルスタイル */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000; /* 診断モーダルより手前 */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            width: 90%;
+            max-width: 650px;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal-content h2 {
+            color: #005f5f;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .close-modal-btn { /* 診断モーダルの閉じるボタン */
+            position: absolute;
+            top: 18px;
+            right: 22px;
+            font-size: 2.2em;
+            color: #b0b0b0;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .close-modal-btn:hover {
+            color: #888;
+        }
+        /* 診断完了ダイアログ用スタイル */
+        .dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* 少し薄めの背景 */
+            z-index: 1005; /* モーダルよりさらに手前 */
+            justify-content: center;
+            align-items: center;
+        }
+        .dialog-content {
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .dialog-content p {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .dialog-close-button {
+            background-color: #00A0A0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .dialog-close-button:hover {
+            background-color: #007B7F;
+        }
+
+        #gameQuizInModal .question-group {
+            margin-bottom: 22px;
+            padding: 18px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        #gameQuizInModal .question-group p {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+            font-size: 1.1em;
+        }
+        #gameQuizInModal .question-group label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background-color: #fff;
+            border: 1px solid #d0d0d0;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        #gameQuizInModal .question-group label:hover {
+            background-color: #e6f7ff;
+            border-color: #00A0A0;
+        }
+        #gameQuizInModal .question-group input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #00A0A0;
+        }
+        #submitDiagnosisBtn {
+            display: block;
+            width: 100%;
+            padding: 14px 22px;
+            background-color: #00A0A0;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 28px;
+            font-size: 1.15em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 25px;
+        }
+        #submitDiagnosisBtn:hover {
+            background-color: #007B7F;
+        }
+        
+        /* レスポンシブ対応 (変更なし) */
+        @media (max-width: 992px) {
+            .header-controls {
+                gap: 15px;
+            }
+            .search-form input[type="text"] {
+                width: 150px;
+            }
+        }
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.6em;
+            }
+            #openDiagnosisModalBtn {
+                font-size: 0.95em;
+                padding: 10px 20px;
+            }
+            .section-title {
+                font-size: 2em;
+            }
+            .search-form {
+                margin-bottom: 10px;
+            }
+             .header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+         @media (max-width: 480px) {
+            .game-card-grid {
+                grid-template-columns: 1fr;
+            }
+            .search-form input[type="text"] {
+                width: calc(100% - 60px);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="logo">プレミアムゲームセレクション</div>
+            <div class="header-controls">
+                <form class="search-form" id="gameSearchForm">
+                    <input type="text" id="searchInput" placeholder="ゲームを検索...">
+                    <button type="submit" id="searchButton">検索</button>
+                </form>
+                <button id="openDiagnosisModalBtn">診断スタート！</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid main-content">
+        <div class="container">
+            <h2 class="section-title" id="mainSectionTitle">話題の新作＆人気ゲーム</h2>
+            <div class="game-card-grid">
+                <div class="game-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1903340/header.jpg?t=1746546713" alt="Clair Obscur: Expedition 33" class="game-image">
+                    <div class="game-card-content">
+                        <h3>Clair Obscur: Expedition 33</h3>
+                        <p>毎年現れる「絵描き」によって消滅する運命にある世界。最後の遠征隊の物語を描くターンベースRPG。</p>
+                        <a href="https://store.steampowered.com/app/1903340/Clair_Obscur_Expedition_33/" target="_blank" rel="noopener noreferrer" class="details-button">Steamで見る</a>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1364780/header.jpg?t=1745814264" alt="Street Fighter 6" class="game-image">
+                    <div class="game-card-content">
+                        <h3>Street Fighter 6</h3>
+                        <p>新たな時代へと突き進む、シリーズ最新作！革新的なゲームプレイと強化されたビジュアルを体験せよ。</p>
+                        <a href="https://store.steampowered.com/app/1364780/Street_Fighter_6/" target="_blank" rel="noopener noreferrer" class="details-button">Steamで見る</a>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3017860/header.jpg?t=1747326614" alt="DOOM: The Dark Ages" class="game-image">
+                    <div class="game-card-content">
+                        <h3>DOOM: The Dark Ages</h3>
+                        <p>ドゥームスレイヤーの怒りの起源を目撃せよ。中世を舞台にしたダークファンタジーFPS。</p>
+                        <a href="https://store.steampowered.com/app/3017860/DOOM_The_Dark_Ages/" target="_blank" rel="noopener noreferrer" class="details-button">Steamで見る</a>
+                    </div>
+                </div>
+                 <div class="game-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg?t=1746519355" alt="Cyberpunk 2077" class="game-image">
+                    <div class="game-card-content">
+                        <h3>Cyberpunk 2077</h3>
+                        <p>巨大都市ナイトシティを舞台にしたオープンワールド・アクションアドベンチャーRPG。不滅の鍵を握るインプラントを追え。</p>
+                        <a href="https://store.steampowered.com/app/1091500/Cyberpunk_2077/" target="_blank" rel="noopener noreferrer" class="details-button">Steamで見る</a>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2246340/header.jpg?t=1747271831" alt="Monster Hunter Wilds" class="game-image">
+                    <div class="game-card-content">
+                        <h3>Monster Hunter Wilds</h3>
+                        <p>究極の狩猟体験がさらに進化。シームレスなフィールドで、新たなモンスターとの出会いが待つ。</p>
+                        <a href="https://store.steampowered.com/app/2246340/Monster_Hunter_Wilds/" target="_blank" rel="noopener noreferrer" class="details-button">Steamで見る</a>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2767030/header.jpg?t=1746613778" alt="マーベル・ライバルズ" class="game-image">
+                    <div class="game-card-content">
+                        <h3>マーベル・ライバルズ</h3>
+                        <p>マーベルのヒーローやヴィランとなって戦う、基本プレイ無料のチーム対戦型PvPシューター！</p>
+                        <a href="https://store.steampowered.com/app/2767030/_/" target="_blank" rel="noopener noreferrer" class="details-button">Steamで見る</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2025 プレミアムゲームセレクション. All Rights Reserved.</p>
+        </div>
+    </div>
+
+    <div id="diagnosisModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal-btn" id="closeDiagnosisModalBtn">&times;</span>
+            <h2>あなたにピッタリのゲームは？</h2>
+            <form id="gameQuizInModal">
+                <div class="question-group">
+                    <p>質問1：ゲームに登場するキャラクターやユニットのデザインについて、どちらのタイプがよりあなたに合っていますか？</p>
+                    <label><input type="radio" name="q1" value="a" required> 個性的で、他にはない独特なデザインやフォルムに強く惹かれる。</label>
+                    <label><input type="radio" name="q1" value="b"> 親しみやすく、一般的に人気のある王道的なデザインが良い。</label>
+                </div>
+                <div class="question-group">
+                    <p>質問2：ゲーム内のキャラクターや装備のカスタマイズ性について、どちらを好みますか？</p>
+                    <label><input type="radio" name="q2" value="a" required> パーツの組み合わせや性能調整など、細部まで自分好みに作り込める自由度の高いシステム。</label>
+                    <label><input type="radio" name="q2" value="b"> 複雑なカスタマイズは不要で、いくつかの魅力的な選択肢から手軽に選べるシステム。</label>
+                </div>
+                <div class="question-group">
+                    <p>質問3：ゲームの移動や探索のスタイルについて、どちらがより魅力的ですか？</p>
+                    <label><input type="radio" name="q3" value="a" required> 広大な3D空間を自由に動き回り、空を飛んだり高低差を活かした探索や戦闘ができる。</label>
+                    <label><input type="radio" name="q3" value="b"> 決められたルートや平面的なマップを移動し、安定した視点でじっくり探索や戦闘ができる。</label>
+                </div>
+                <div class="question-group">
+                    <p>質問4：ゲームの運営期間やアップデートの頻度について、どちらのタイプに安心感や期待感を持ちますか？</p>
+                    <label><input type="radio" name="q4" value="a" required> 長年にわたり運営され、定期的なアップデートでコンテンツが追加・改善され続ける、安定感のあるゲーム。</label>
+                    <label><input type="radio" name="q4" value="b"> 発売されたばかりの最新作で、新しい技術やトレンドが盛り込まれた、斬新な体験ができるゲーム。</label>
+                </div>
+                <div class="question-group">
+                    <p>質問5：ゲームのグラフィックや雰囲気について、どちらのタイプにより惹かれますか？</p>
+                    <label><input type="radio" name="q5" value="a" required> 最新の超美麗グラフィックではなくても、独自の魅力や味わい深い雰囲気を持つ、個性的なアートスタイルのゲーム。</label>
+                    <label><input type="radio" name="q5" value="b"> 最先端の技術を駆使した、リアルで美麗なグラフィックを追求したゲーム。</label>
+                </div>
+                <button type="button" id="submitDiagnosisBtn">診断を完了する</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="completionDialog" class="dialog-overlay">
+        <div class="dialog-content">
+            <p id="completionMessage">診断が完了しました！あなたへのおすすめゲームが更新されました。</p>
+            <button class="dialog-close-button" id="closeCompletionDialogBtn">閉じる</button>
+        </div>
+    </div>
+
+    <script>
+        const openModalBtn = document.getElementById('openDiagnosisModalBtn');
+        const closeModalBtn = document.getElementById('closeDiagnosisModalBtn');
+        const diagnosisModal = document.getElementById('diagnosisModal');
+        const submitDiagnosisBtn = document.getElementById('submitDiagnosisBtn');
+        const gameCardGrid = document.querySelector('.game-card-grid');
+        const gameSearchForm = document.getElementById('gameSearchForm');
+        const searchInput = document.getElementById('searchInput');
+        const sectionTitleElement = document.getElementById('mainSectionTitle'); 
+        const completionDialog = document.getElementById('completionDialog');
+        const closeCompletionDialogBtn = document.getElementById('closeCompletionDialogBtn');
+        const completionMessage = document.getElementById('completionMessage');
+
+
+        // ゲームデータ
+        const c21GameData = {
+            title: "鋼鉄戦記C21",
+            image: "https://www.c21-online.jp/images/common/twitter_card_200617.png",
+            description: "自分だけの最強ロボを組み上げ、空を駆け巡り、未知の惑星を冒険しよう！無限のカスタマイズと自由なアクションが君を待つ！",
+            link: "https://www.c21-online.jp/"
+        };
+        const lolGameData = {
+            title: "League of Legends",
+            image: "https://esports-world.jp/images/upload/2023/06/467cbc5bdcae7467f529bc1762a02d83.jpg", 
+            description: "世界で最もプレイされているPCゲームの一つ。5対5のチームで戦う戦略的なMOBA。",
+            link: "https://www.leagueoflegends.com/ja-jp/"
+        };
+
+        let activeLolCardElement = null; 
+        let isLolTrackingActive = false; 
+        let lolCardButton = null; 
+
+        // カード情報を更新する汎用関数
+        function updateCards(gameData, isLolSearch = false) {
+            const allGameCards = Array.from(gameCardGrid.querySelectorAll('.game-card')); 
+            
+            if (isLolTrackingActive && activeLolCardElement) {
+                deactivateLolCardTracking();
+            }
+            gameCardGrid.classList.remove('single-card-mode');
+
+
+            if (isLolSearch) {
+                gameCardGrid.classList.add('single-card-mode'); 
+                allGameCards.forEach((card, index) => {
+                    if (index === 0) { 
+                        card.classList.remove('hidden-card');
+                        const img = card.querySelector('.game-image');
+                        const title = card.querySelector('h3');
+                        const desc = card.querySelector('p');
+                        const link = card.querySelector('.details-button');
+                        lolCardButton = link; 
+
+                        if (img) img.src = gameData.image;
+                        if (img) img.alt = gameData.title;
+                        if (title) title.textContent = gameData.title;
+                        if (desc) desc.textContent = gameData.description;
+                        if (link) {
+                            link.href = gameData.link;
+                            link.textContent = '公式サイトへ';
+                            link.target = '_blank';
+                            link.rel = 'noopener noreferrer';
+                        }
+                        activateLolCardTracking(card); 
+                    } else {
+                        card.classList.add('hidden-card'); 
+                    }
+                });
+            } else { 
+                allGameCards.forEach((card, index) => { 
+                    card.classList.remove('hidden-card');
+                    const img = card.querySelector('.game-image');
+                    const title = card.querySelector('h3');
+                    const desc = card.querySelector('p');
+                    const link = card.querySelector('.details-button');
+                    
+                    const displayData = gameData; 
+
+                    if (img) img.src = displayData.image;
+                    if (img) img.alt = displayData.title;
+                    if (title) title.textContent = displayData.title;
+                    if (desc) desc.textContent = displayData.description;
+                    if (link) {
+                        link.href = displayData.link;
+                        link.textContent = (displayData === c21GameData) ? '公式サイトへ' : 'Steamで見る';
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        link.style.position = 'relative'; 
+                        link.style.left = 'auto';
+                        link.style.bottom = 'auto'; 
+                        link.style.transform = '';
+                    }
+                });
+            }
+
+            if (sectionTitleElement) {
+                 if (isLolSearch) {
+                    sectionTitleElement.textContent = 'League of Legends 特集！';
+                } else if (gameData === c21GameData) {
+                    sectionTitleElement.textContent = 'あなたに絶対おすすめのゲーム！';
+                } else {
+                    sectionTitleElement.textContent = '話題の新作＆人気ゲーム'; 
+                }
+            }
+        }
+        
+        function lolCardMouseMoveHandler(event) {
+            if (activeLolCardElement && isLolTrackingActive) {
+                const cardX = event.clientX - activeLolCardElement.offsetWidth / 2;
+                const cardY = event.clientY - activeLolCardElement.offsetHeight / 2;
+                
+                activeLolCardElement.style.left = `${cardX}px`;
+                activeLolCardElement.style.top = `${cardY}px`;
+                activeLolCardElement.style.transform = 'scale(1.05)';
+
+                if (lolCardButton) {
+                    const buttonX = event.clientX - activeLolCardElement.offsetLeft - lolCardButton.offsetWidth / 2;
+                    const buttonY = activeLolCardElement.offsetHeight - lolCardButton.offsetHeight - 20;
+
+
+                    const minButtonX = 0; 
+                    const maxButtonX = activeLolCardElement.offsetWidth - lolCardButton.offsetWidth; 
+                    
+                    lolCardButton.style.position = 'absolute';
+                    lolCardButton.style.left = `${Math.max(minButtonX, Math.min(buttonX, maxButtonX))}px`;
+                    lolCardButton.style.top = `${buttonY}px`; 
+                    lolCardButton.style.transform = 'translateX(0)'; 
+                }
+            }
+        }
+
+        function activateLolCardTracking(cardElement) {
+            if (!isLolTrackingActive) {
+                activeLolCardElement = cardElement;
+                lolCardButton = activeLolCardElement.querySelector('.details-button'); 
+                activeLolCardElement.classList.add('lol-mouse-track');
+                document.addEventListener('mousemove', lolCardMouseMoveHandler);
+                isLolTrackingActive = true;
+                 if(lolCardButton) lolCardButton.style.pointerEvents = 'auto'; 
+            }
+        }
+
+        function deactivateLolCardTracking() {
+            if (isLolTrackingActive && activeLolCardElement) {
+                document.removeEventListener('mousemove', lolCardMouseMoveHandler);
+                activeLolCardElement.classList.remove('lol-mouse-track');
+                activeLolCardElement.style.position = ''; 
+                activeLolCardElement.style.left = '';
+                activeLolCardElement.style.top = '';
+                activeLolCardElement.style.transform = '';
+                activeLolCardElement.style.width = ''; 
+                if (lolCardButton) {
+                    lolCardButton.style.position = 'relative'; 
+                    lolCardButton.style.left = 'auto';
+                    lolCardButton.style.top = 'auto'; 
+                    lolCardButton.style.bottom = 'auto'; 
+                    lolCardButton.style.transform = '';
+                    lolCardButton.style.pointerEvents = '';
+                }
+                isLolTrackingActive = false;
+                activeLolCardElement = null;
+                lolCardButton = null;
+            }
+        }
+
+        // モーダルを開く
+        if (openModalBtn) {
+            openModalBtn.addEventListener('click', () => {
+                if (diagnosisModal) diagnosisModal.style.display = 'flex';
+            });
+        }
+
+        // モーダルを閉じる
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', () => {
+                if (diagnosisModal) diagnosisModal.style.display = 'none';
+            });
+        }
+        if (diagnosisModal) {
+            diagnosisModal.addEventListener('click', (event) => {
+                if (event.target === diagnosisModal) {
+                    diagnosisModal.style.display = 'none';
+                }
+            });
+        }
+        
+        // 診断完了ダイアログを表示する関数
+        function showCompletionDialog(message) {
+            if (completionMessage) completionMessage.textContent = message;
+            if (completionDialog) completionDialog.style.display = 'flex';
+        }
+
+        // 診断完了ダイアログを閉じる
+        if (closeCompletionDialogBtn) {
+            closeCompletionDialogBtn.addEventListener('click', () => {
+                if (completionDialog) completionDialog.style.display = 'none';
+            });
+        }
+         if (completionDialog) {
+            completionDialog.addEventListener('click', (event) => {
+                if (event.target === completionDialog) {
+                     completionDialog.style.display = 'none';
+                }
+            });
+        }
+
+
+        // 診断完了処理
+        if (submitDiagnosisBtn) {
+            submitDiagnosisBtn.addEventListener('click', () => {
+                const form = document.getElementById('gameQuizInModal');
+                const questions = ['q1', 'q2', 'q3', 'q4', 'q5'];
+                let allAnswered = true;
+
+                for (const qName of questions) {
+                    const radioGroup = form.elements[qName];
+                    if (radioGroup && !radioGroup.value) {
+                        allAnswered = false;
+                        break;
+                    }
+                }
+
+                if (allAnswered) {
+                    updateCards(c21GameData, false); 
+                    if (diagnosisModal) diagnosisModal.style.display = 'none';
+                    showCompletionDialog('診断が完了しました！あなたへのおすすめゲームが更新されました。');
+                } else {
+                    alert('すべての質問に回答してください。');
+                }
+            });
+        }
+
+        // 検索処理
+        if (gameSearchForm) {
+            gameSearchForm.addEventListener('submit', (event) => {
+                event.preventDefault(); 
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const lolKeywords = ["lol", "リーグオブレジェンド", "league of legends"];
+
+                if (lolKeywords.includes(searchTerm)) {
+                    updateCards(lolGameData, true); 
+                    showCompletionDialog('League of Legends の情報を表示します！');
+                } else {
+                    updateCards(c21GameData, false); 
+                    showCompletionDialog('検索結果を表示します！ (鋼鉄戦記C21)');
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>
