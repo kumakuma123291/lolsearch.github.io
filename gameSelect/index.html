@@ -9,10 +9,10 @@
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin: 0;
-            background-color: #f4f7f6; /* 非常に薄いグレー背景 */
-            color: #4A4A4A; /* やや濃いめのグレー */
+            background-color: #f4f7f6; 
+            color: #4A4A4A; 
             line-height: 1.6;
-            overflow-x: hidden; /* 横スクロール防止 */
+            overflow-x: hidden; 
         }
 
         .container-fluid {
@@ -28,8 +28,8 @@
 
         /* ヘッダー */
         .header {
-            background-color: #fff; /* ホワイト背景 */
-            color: #007B7F; /* 深いアクアブルー */
+            background-color: #fff; 
+            color: #007B7F; 
             padding: 20px 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.07);
             position: sticky;
@@ -64,11 +64,11 @@
 
         .search-form input[type="text"] {
             padding: 10px 15px;
-            border: 1px solid #DAA520; /* ゴールド系ボーダー */
+            border: 1px solid #DAA520; 
             border-radius: 20px 0 0 20px;
             font-size: 0.95em;
             outline: none;
-            width: 200px; /* 幅を調整 */
+            width: 200px; 
             transition: border-color 0.3s ease;
         }
         .search-form input[type="text"]:focus {
@@ -77,7 +77,7 @@
 
         .search-form button {
             padding: 10px 18px;
-            background-color: #DAA520; /* ゴールド系背景 */
+            background-color: #DAA520; 
             color: #fff;
             border: none;
             border-radius: 0 20px 20px 0;
@@ -86,12 +86,12 @@
             transition: background-color 0.3s ease;
         }
         .search-form button:hover {
-            background-color: #b8860b; /* DarkGoldenrod */
+            background-color: #b8860b; 
         }
 
 
         #openDiagnosisModalBtn {
-            background-color: #007B7F; /* 深いアクアブルー */
+            background-color: #007B7F; 
             color: #fff;
             border: none;
             padding: 12px 25px;
@@ -104,7 +104,7 @@
         }
 
         #openDiagnosisModalBtn:hover {
-            background-color: #005f5f; /* さらに濃いアクアブルー */
+            background-color: #005f5f; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
@@ -118,7 +118,7 @@
             font-size: 2.2em;
             color: #005f5f; 
             margin-bottom: 40px;
-            font-weight: 300; /* 少し細めに */
+            font-weight: 300; 
         }
 
         .game-card-grid {
@@ -132,11 +132,11 @@
             background-color: #fff;
             border-radius: 12px; 
             box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            overflow: hidden; /* ボタンがはみ出ないように */
+            overflow: hidden; 
             display: flex; 
             flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative; /* ボタンのabsolute配置の基準 */
+            position: relative; 
         }
         
         .game-card.lol-mouse-track { 
@@ -209,9 +209,67 @@
             background-color: #007B7F;
         }
         
-        .hidden-card { 
+        .hidden-content { /* 汎用非表示クラス */
             display: none !important;
         }
+
+        /* ガンダムオンライン記念セクションのスタイル */
+        #gundamOnlineMemorialSection {
+            background-color: #fdf5e6; /* 羊皮紙風の背景色 (Linen) */
+            border: 10px solid transparent;
+            border-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.A%7Bfill:%23DAA520%7D%3C/style%3E%3Cpath class='A' d='M0 0 H100 V20 H80 V80 H100 V100 H0 V80 H20 V20 H0Z'/%3E%3Cpath class='A' d='M10 10 H90 V15 H15 V85 H90 V90 H10Z'/%3E%3C/svg%3E") 30 stretch; /* 装飾的なSVGボーダー */
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 900px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        #gundamOnlineMemorialSection h2 {
+            font-family: 'Times New Roman', Times, serif; /* 歴史を感じさせるフォント */
+            font-size: 2.8em;
+            color: #8B4513; /* SaddleBrown - 茶色系 */
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px #ccc;
+            border-bottom: 2px solid #DAA520;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        #gundamOnlineMemorialSection .history-content {
+            font-family: 'Georgia', serif;
+            font-size: 1.1em;
+            color: #543112; /* 暗めの茶色 */
+            text-align: left;
+            line-height: 1.8;
+            max-height: 500px; /* 必要に応じて高さを制限してスクロールバー表示 */
+            overflow-y: auto; /* 内容が多い場合にスクロール */
+            padding: 20px;
+            background-color: rgba(255,255,255,0.3); /* 少し透明な白背景 */
+            border-radius: 8px;
+        }
+         #gundamOnlineMemorialSection .history-content p {
+             margin-bottom: 1.2em;
+         }
+         #gundamOnlineMemorialSection .history-content strong {
+             color: #a0522d; /* Sienna */
+             font-weight: bold;
+         }
+         #gundamOnlineMemorialSection .history-link {
+             display: block;
+             margin-top: 30px;
+             font-size: 1em;
+         }
+         #gundamOnlineMemorialSection .history-link a {
+             color: #007B7F;
+             text-decoration: none;
+             font-weight: bold;
+             border-bottom: 1px dashed #007B7F;
+             transition: color 0.3s ease, border-bottom-color 0.3s ease;
+         }
+         #gundamOnlineMemorialSection .history-link a:hover {
+             color: #DAA520;
+             border-bottom-color: #DAA520;
+         }
+
 
         /* フッター */
         .footer {
@@ -223,7 +281,7 @@
             border-top: 1px solid #dee2e6;
         }
 
-        /* モーダルスタイル */
+        /* モーダルスタイル (変更なし) */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -232,7 +290,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1000; /* 診断モーダルより手前 */
+            z-index: 1000; 
             justify-content: center;
             align-items: center;
         }
@@ -254,7 +312,7 @@
             text-align: center;
             font-weight: 600;
         }
-        .close-modal-btn { /* 診断モーダルの閉じるボタン */
+        .close-modal-btn { 
             position: absolute;
             top: 18px;
             right: 22px;
@@ -274,8 +332,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.4); /* 少し薄めの背景 */
-            z-index: 1005; /* モーダルよりさらに手前 */
+            background-color: rgba(0, 0, 0, 0.4); 
+            z-index: 1005; 
             justify-content: center;
             align-items: center;
         }
@@ -412,6 +470,21 @@
     <div class="container-fluid main-content">
         <div class="container">
             <h2 class="section-title" id="mainSectionTitle">話題の新作＆人気ゲーム</h2>
+            
+            <div id="gundamOnlineMemorialSection" class="hidden-content">
+                <h2>ガンダムオンラインを忘れるな</h2>
+                <div class="history-content">
+                    <p><strong>2012年12月25日</strong> - 正式サービス開始。多くの戦士たちが、連邦とジオンに分かれ、広大な戦場へと降り立った。カスタマイズ可能なモビルスーツ、大規模な拠点攻略戦は、多くのプレイヤーを魅了した。</p>
+                    <p><strong>初期～中期</strong> - 新機体の追加、バランス調整、新マップの実装など、絶え間ないアップデートが行われた。大規模戦は最大52vs52という、当時としては圧巻のスケールを誇り、戦略と連携が勝利の鍵を握った。指揮官システムやエース機体の登場も、戦場に深みを与えた。</p>
+                    <p><strong>DXガシャコン</strong> - 新機体や強力な武器が手に入る可能性を秘めたガシャコンは、多くのプレイヤーにとって一喜一憂の源泉であった。限定機体や人気機体が登場するたびに、戦場のトレンドも変化した。</p>
+                    <p><strong>数々のイベント</strong> - 定期的に開催されるイベントでは、特別な報酬や限定称号などが用意され、多くのプレイヤーが積極的に参加した。コラボレーションイベントなども行われ、ゲームを盛り上げた。</p>
+                    <p><strong>コミュニティ</strong> - 部隊（クラン）システムを通じて、多くの仲間との出会いや共闘が生まれた。SNSや動画サイトでも活発な情報交換やプレイ動画の投稿が行われ、独自の文化を形成した。</p>
+                    <p><strong>晩年～サービス終了</strong> - ゲームバランスの変遷、プレイヤー数の増減など、様々な変化を経験しながらも、多くの熱心なファンに支えられ続けた。そして、<strong>2022年3月30日</strong>、約9年3ヶ月の歴史に幕を下ろした。しかし、その熱い戦いの記憶は、多くのプレイヤーの心に刻まれている。</p>
+                    <p><em>「戦いはまだ終わっていない…そうだろう？」</em></p>
+                </div>
+                <p class="history-link">より詳細な歴史は<a href="https://peergundam.swiki.jp/index.php?%E3%82%AC%E3%83%B3%E3%82%AA%E3%83%B3%E3%81%AE%E6%AD%B4%E5%8F%B2" target="_blank" rel="noopener noreferrer">こちら（ガンオンの歴史 - PeerGundam Wiki）</a>でご覧いただけます。</p>
+            </div>
+
             <div class="game-card-grid">
                 <div class="game-card">
                     <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1903340/header.jpg?t=1746546713" alt="Clair Obscur: Expedition 33" class="game-image">
@@ -525,6 +598,7 @@
         const completionDialog = document.getElementById('completionDialog');
         const closeCompletionDialogBtn = document.getElementById('closeCompletionDialogBtn');
         const completionMessage = document.getElementById('completionMessage');
+        const gundamMemorialSection = document.getElementById('gundamOnlineMemorialSection');
 
 
         // ゲームデータ
@@ -545,21 +619,55 @@
         let isLolTrackingActive = false; 
         let lolCardButton = null; 
 
-        // カード情報を更新する汎用関数
-        function updateCards(gameData, isLolSearch = false) {
-            const allGameCards = Array.from(gameCardGrid.querySelectorAll('.game-card')); 
-            
+        // 表示モードを管理する関数
+        function setDisplayMode(mode, gameData = null) {
+            // まず全コンテンツを非表示またはリセット
+            if (gameCardGrid) gameCardGrid.classList.add('hidden-content');
+            if (gundamMemorialSection) gundamMemorialSection.classList.add('hidden-content');
             if (isLolTrackingActive && activeLolCardElement) {
                 deactivateLolCardTracking();
             }
             gameCardGrid.classList.remove('single-card-mode');
 
 
+            if (mode === "gundam") {
+                if (sectionTitleElement) sectionTitleElement.classList.add('hidden-content'); // 通常のセクションタイトルを隠す
+                if (gundamMemorialSection) gundamMemorialSection.classList.remove('hidden-content');
+            } else if (mode === "lol") {
+                if (sectionTitleElement) sectionTitleElement.classList.remove('hidden-content');
+                if (gameCardGrid) gameCardGrid.classList.remove('hidden-content');
+                updateCards(gameData, true); // LoLカード1枚表示
+            } else if (mode === "c21") {
+                if (sectionTitleElement) sectionTitleElement.classList.remove('hidden-content');
+                if (gameCardGrid) gameCardGrid.classList.remove('hidden-content');
+                updateCards(gameData, false); // C21カード複数表示
+            } else { // 初期表示またはその他のゲームカード表示
+                if (sectionTitleElement) sectionTitleElement.classList.remove('hidden-content');
+                if (gameCardGrid) gameCardGrid.classList.remove('hidden-content');
+                // ここで初期カード情報を再描画する (今回は updateCards に任せる)
+                // 必要であれば、初期カード情報を保持しておき、ここで再設定します。
+                // 現在は診断完了時と同じC21が表示される想定になっています。
+                // もし初期の6枚のカードに戻したい場合は、そのためのデータとロジックが必要。
+                // 今回は簡略化のため、検索以外はC21にフォールバックするか、
+                // updateCards(null, false) のようにして初期カード表示に戻す処理を updateCards 内に作る。
+                // 現状では、C21以外のゲームデータで updateCards を呼ぶと全カードがそのゲームになるため、
+                // 初期表示に戻す場合は、各カードの情報を個別に設定し直す必要がある。
+                // 今回は「ガンダム」以外はC21かLoLに集約する。
+                if (sectionTitleElement) sectionTitleElement.textContent = '話題の新作＆人気ゲーム';
+                // 初期カードの再表示ロジックは省略（現状ではC21が表示される）
+            }
+        }
+
+
+        // カード情報を更新する汎用関数
+        function updateCards(gameData, isLolSearch = false) {
+            const allGameCards = Array.from(gameCardGrid.querySelectorAll('.game-card')); 
+            
             if (isLolSearch) {
                 gameCardGrid.classList.add('single-card-mode'); 
                 allGameCards.forEach((card, index) => {
                     if (index === 0) { 
-                        card.classList.remove('hidden-card');
+                        card.classList.remove('hidden-content');
                         const img = card.querySelector('.game-image');
                         const title = card.querySelector('h3');
                         const desc = card.querySelector('p');
@@ -578,26 +686,24 @@
                         }
                         activateLolCardTracking(card); 
                     } else {
-                        card.classList.add('hidden-card'); 
+                        card.classList.add('hidden-content'); 
                     }
                 });
-            } else { 
-                allGameCards.forEach((card, index) => { 
-                    card.classList.remove('hidden-card');
+            } else { // C21表示 (または将来的に初期カード表示に戻す場合)
+                allGameCards.forEach((card) => { 
+                    card.classList.remove('hidden-content');
                     const img = card.querySelector('.game-image');
                     const title = card.querySelector('h3');
                     const desc = card.querySelector('p');
                     const link = card.querySelector('.details-button');
                     
-                    const displayData = gameData; 
-
-                    if (img) img.src = displayData.image;
-                    if (img) img.alt = displayData.title;
-                    if (title) title.textContent = displayData.title;
-                    if (desc) desc.textContent = displayData.description;
+                    if (img) img.src = gameData.image; // C21の画像
+                    if (img) img.alt = gameData.title;  // C21のタイトル
+                    if (title) title.textContent = gameData.title; // C21のタイトル
+                    if (desc) desc.textContent = gameData.description; // C21の説明
                     if (link) {
-                        link.href = displayData.link;
-                        link.textContent = (displayData === c21GameData) ? '公式サイトへ' : 'Steamで見る';
+                        link.href = gameData.link; // C21のリンク
+                        link.textContent = '公式サイトへ';
                         link.target = '_blank';
                         link.rel = 'noopener noreferrer';
                         link.style.position = 'relative'; 
@@ -613,9 +719,8 @@
                     sectionTitleElement.textContent = 'League of Legends 特集！';
                 } else if (gameData === c21GameData) {
                     sectionTitleElement.textContent = 'あなたに絶対おすすめのゲーム！';
-                } else {
-                    sectionTitleElement.textContent = '話題の新作＆人気ゲーム'; 
                 }
+                // 初期表示のタイトルはsetDisplayModeで制御
             }
         }
         
@@ -736,7 +841,7 @@
                 }
 
                 if (allAnswered) {
-                    updateCards(c21GameData, false); 
+                    setDisplayMode("c21", c21GameData); 
                     if (diagnosisModal) diagnosisModal.style.display = 'none';
                     showCompletionDialog('診断が完了しました！あなたへのおすすめゲームが更新されました。');
                 } else {
@@ -751,16 +856,31 @@
                 event.preventDefault(); 
                 const searchTerm = searchInput.value.toLowerCase().trim();
                 const lolKeywords = ["lol", "リーグオブレジェンド", "league of legends"];
+                const gundamKeywords = ["ガンダム", "gundam"];
+
 
                 if (lolKeywords.includes(searchTerm)) {
-                    updateCards(lolGameData, true); 
+                    setDisplayMode("lol", lolGameData);
                     showCompletionDialog('League of Legends の情報を表示します！');
-                } else {
-                    updateCards(c21GameData, false); 
+                } else if (gundamKeywords.includes(searchTerm)) {
+                    setDisplayMode("gundam");
+                    showCompletionDialog('ガンダムオンラインの記憶を呼び覚ましました。');
+                }
+                else {
+                    setDisplayMode("c21", c21GameData);
                     showCompletionDialog('検索結果を表示します！ (鋼鉄戦記C21)');
                 }
             });
         }
+        
+        // 初期表示は通常のゲームカード
+        setDisplayMode("initial");
+
+
+    </script>
+</body>
+</html>
+
         
     </script>
 </body>
