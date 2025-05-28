@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOLプレイ誓約書</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Application Structure Plan: 
+        SPAは、ヘッダー、ナビゲーション（各条項へのタブ）、コンテンツ表示エリアで構成されます。
+        ユーザーはタブをクリックすることで、誓約書の各条項を個別に閲覧できます。
+        この構造は、複数のセクションから成る文書を段階的に、かつインタラクティブに提示するのに適しており、ユーザーの理解とエンゲージメントを促進します。
+        「署名欄」も専用のセクションとして表示します。
+        全体の目的は、ユーモラスな誓約書の内容を楽しく、かつ明確に伝えることです。
+    -->
+    <!-- Visualization & Content Choices: 
+        Source Report Info: LOLプレイ誓約書（ユーモア版）の各条項と署名欄。
+        Goal: Inform & Organize - 誓約書の内容を分かりやすく提示し、各条項を整理して見せる。
+        Viz/Presentation Method: タブベースのコンテンツ表示。各条項は個別のテキストブロックとして表示。
+        Interaction: タブをクリックすると対応する条項が表示される。
+        Justification: テキストベースのコンテンツを分割して提示することで、可読性を高め、ユーザーが興味のある部分に容易にアクセスできるようにする。
+        Library/Method: Vanilla JavaScript for tab functionality. Chart.jsは現時点では使用されていませんが、将来的なデータ可視化のためにテンプレートに含んでいます。
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* TailwindはデフォルトでInterに似たフォントを使用しますが、明示的に指定 */
+        }
+        .tab-active {
+            border-bottom-width: 2px;
+            --tw-border-opacity: 1;
+            border-color: rgb(6 78 59 / var(--tw-border-opacity)); /* emerald-800 */
+            --tw-text-opacity: 1;
+            color: rgb(6 78 59 / var(--tw-text-opacity)); /* emerald-800 */
+            font-weight: 600;
+        }
+        .content-section {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* ライトテーマの背景 */
+        body { background-color: #fdfbf7; /* Warm neutral - very light beige/off-white */ }
+        .nav-bg { background-color: #f4f1ec; /* Slightly darker warm neutral for nav */ }
+        .content-bg { background-color: #ffffff; /* White for content readability */ }
+        .accent-text { color: #059669; /* Emerald-600 for accents */ }
+        .accent-border { border-color: #059669; }
+        .button-primary {
+            background-color: #10b981; /* Emerald-500 */
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .button-primary:hover {
+            background-color: #059669; /* Emerald-600 */
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-4xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold accent-text">League of Legends プレイ誓約書</h1>
+            <p class="mt-4 text-stone-700">
+                このインタラクティブな誓約書へようこそ！ここでは、League of Legendsをプレイする上での（ちょっぴりユーモラスな）心構えやルールを楽しく確認できます。下のタブから各条項を選んで、その内容をじっくりとご覧ください。
+            </p>
+        </header>
+
+        <main>
+            <div class="nav-bg shadow-md rounded-lg p-2 mb-6">
+                <nav class="flex flex-wrap justify-center space-x-2 sm:space-x-4" id="tab-navigation">
+                    <button data-tab="intro" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">序文</button>
+                    <button data-tab="article1" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">第一条</button>
+                    <button data-tab="article2" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">第二条</button>
+                    <button data-tab="article3" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">第三条</button>
+                    <button data-tab="article4" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">第四条</button>
+                    <button data-tab="article5" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">第五条</button>
+                    <button data-tab="article6" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">第六条</button>
+                    <button data-tab="article7" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">第七条</button>
+                    <button data-tab="article8" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">第八条</button>
+                    <button data-tab="conclusion" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">結び</button>
+                    <button data-tab="signature" class="tab-item py-2 px-3 sm:px-4 text-sm sm:text-base text-stone-700 hover:accent-text rounded-md">署名欄</button>
+                </nav>
+            </div>
+
+            <div id="content-area" class="content-bg shadow-xl rounded-lg p-6 min-h-[300px]">
+                <div id="content-intro" class="content-section">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">誓約書の序文</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        この誓約書は、League of Legends（以下「LOL」という）の素晴らしき世界への没入と、日々の研鑽、そして何よりも楽しむことを誓約するものです。各条項を読み進め、LOLプレイヤーとしての心意気を確認しましょう！
+                    </p>
+                </div>
+
+                <div id="content-article1" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">第一条（召喚士の掟）</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        契約者は、サモナーズリフトの掟を遵守し、フェアプレイの精神をもって、味方チームの勝利に貢献すべく全力を尽くすことを誓います。たとえ困難な戦況であっても、決して希望を捨てず、最後まで戦い抜くものとします。
+                    </p>
+                    <p class="mt-3 text-sm text-stone-500"><em>この条項は、ゲームの基本精神と諦めない心の重要性を説いています。勝利への道はチームと共に！</em></p>
+                </div>
+
+                <div id="content-article2" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">第二条（日々の精進）</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        契約者は、LOLの知識と技術の向上を目指し、日々のプレイ、情報収集、リプレイ研究を怠らないことを誓います。新たなチャンピオンの習熟、戦術理解の深化に努め、常に自己ベストを更新し続けるものとします。
+                    </p>
+                     <p class="mt-3 text-sm text-stone-500"><em>自己成長はLOLの醍醐味の一つ。昨日より強い自分を目指しましょう！</em></p>
+                </div>
+
+                <div id="content-article3" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">第三条（仲間との絆）</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        契約者は、共に戦う仲間たちへの感謝と敬意を忘れず、円滑なコミュニケーションを心がけ、チームワークを最大限に発揮することを誓います。勝利の喜びも敗北の悔しさも分かち合い、かけがえのない絆を育むものとします。
+                    </p>
+                    <p class="mt-3 text-sm text-stone-500"><em>チームゲームであるLOLにおいて、仲間との連携と思いやりの心は不可欠です。</em></p>
+                </div>
+
+                <div id="content-article4" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">第四条（メンタルヘルス）</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        契約者は、いかなる状況下においても冷静沈着を保ち、感情的な言動を慎むことを誓います。敗北から学び、建設的な反省を行い、次なる勝利への糧とする強靭な精神力を養うものとします。
+                    </p>
+                    <p class="mt-3 text-sm text-stone-500"><em>熱くなりすぎず、常に冷静な判断を。メンタルの強さも実力のうちです。</em></p>
+                </div>
+                
+                <div id="content-article5" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">第五条（プレイ時間の確保と現実との調和）</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        契約者は、LOLをプレイするための時間を賢明に確保しつつも、学業、仕事、家庭、健康など、現実世界の責務との調和を保つことを誓います。LOLは人生を豊かにするスパイスであり、現実生活を疎かにするものではないことを肝に銘じます。
+                    </p>
+                    <p class="mt-3 text-sm text-stone-500"><em>LOLも大事、リアルも大事。バランス感覚を忘れずに楽しみましょう。</em></p>
+                </div>
+
+                <div id="content-article6" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">第六条（LOL愛の普及）</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        契約者は、LOLの魅力と楽しさを、未だその深淵を知らぬ者たちに伝え、LOLコミュニティの発展に微力ながら貢献することを誓います。ただし、強要や迷惑行為は厳に慎み、相手の意思を尊重するものとします。
+                    </p>
+                    <p class="mt-3 text-sm text-stone-500"><em>LOLの楽しさを広めるのは素晴らしいことですが、節度を持って行いましょう。</em></p>
+                </div>
+
+                <div id="content-article7" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">第七条（倫理規定と利用規約の遵守）</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        契約者は、Riot Gamesが定める利用規約、行動規範、その他一切の規定を理解し、これを遵守することを誓います。特に、チート行為、不適切な言動、アカウント共有、その他コミュニティに害を及ぼす一切の行為を行わないものとします。常にスポーツマンシップに則り、健全なゲーム環境の維持に努めるものとします。
+                    </p>
+                    <p class="mt-3 text-sm text-stone-500"><em>公式ルールを守り、皆が楽しめるクリーンな環境作りに協力しましょう。</em></p>
+                </div>
+
+                <div id="content-article8" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">第八条（誓約違反の場合の措置）</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        契約者が本誓約書のいずれかの条項に著しく違反したと判断された場合、他の契約者は、違反者に対し、ユーモアと愛をもって「ミームによる精神的ダメージ」または「次の試合でのサポートロール強要」といった形で、その責任を追及することができるものとします。ただし、これはあくまでLOLを楽しむための一環であり、現実世界における金銭的な賠償請求や法的措置を意味するものではありません。
+                    </p>
+                     <p class="mt-3 text-sm text-stone-500"><em>これはあくまでジョーク！楽しくプレイするためのスパイスとして捉えてくださいね。</em></p>
+                </div>
+
+                <div id="content-conclusion" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">結びの言葉</h2>
+                    <p class="text-stone-700 leading-relaxed">
+                        以上、本誓約書の内容を理解し、これを誠実に履行することを誓います。
+                    </p>
+                    <p class="mt-3 text-sm text-stone-500"><em>さあ、この誓いを胸に、サモナーズリフトへ！ Good Luck, Have Fun!</em></p>
+                </div>
+
+                <div id="content-signature" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold accent-text mb-4">署名欄</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="pledge-date" class="block text-sm font-medium text-stone-700">誓約日:</label>
+                            <input type="text" id="pledge-date" value="____年__月__日" class="mt-1 block w-full sm:w-1/2 rounded-md border-stone-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-stone-700 p-2" readonly>
+                        </div>
+                        <div>
+                            <label for="summoner-name" class="block text-sm font-medium text-stone-700">署名（召喚士名）:</label>
+                            <input type="text" id="summoner-name" placeholder="指名" class="mt-1 block w-full sm:w-2/3 rounded-md border-stone-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-stone-700 p-2">
+                        </div>
+                        <button id="virtual-sign-button" class="button-primary font-semibold py-2 px-4 rounded-lg shadow-md mt-4">
+                            心の中で署名する！ <span class="ml-1">✒️</span>
+                        </button>
+                        <p id="signed-message" class="text-emerald-600 font-semibold mt-3 hidden">心の中で力強く署名しました！誓いは胸に刻まれました！</p>
+                    </div>
+                     <p class="mt-6 text-sm text-stone-500"><em>この署名欄はインタラクティブな体験のためであり、法的な拘束力はありません。楽しんでください！</em></p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t border-stone-300">
+            <p class="text-sm text-stone-500">&copy; <span id="currentYear"></span> LOLプレイヤー有志によるユーモア企画。Riot Gamesとは無関係です。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab-item');
+            const contentSections = document.querySelectorAll('.content-section');
+            const initialTab = 'intro'; // 最初に表示するタブ
+
+            function showContent(tabId) {
+                contentSections.forEach(section => {
+                    if (section.id === `content-${tabId}`) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+                tabs.forEach(tab => {
+                    if (tab.dataset.tab === tabId) {
+                        tab.classList.add('tab-active');
+                        tab.classList.remove('text-stone-700');
+                    } else {
+                        tab.classList.remove('tab-active');
+                        tab.classList.add('text-stone-700');
+                    }
+                });
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const tabId = this.dataset.tab;
+                    showContent(tabId);
+                });
+            });
+
+            // Initialize with the first tab active
+            showContent(initialTab);
+
+            // Signature button interaction
+            const signButton = document.getElementById('virtual-sign-button');
+            const signedMessage = document.getElementById('signed-message');
+            if (signButton) {
+                signButton.addEventListener('click', function() {
+                    signedMessage.classList.remove('hidden');
+                    setTimeout(() => {
+                        signedMessage.classList.add('hidden');
+                    }, 3000);
+                });
+            }
+            
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
