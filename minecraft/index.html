@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マインクラフト労働規約</title>
+    <!-- Google Fontsからドット絵風フォントを読み込む -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <style>
+        /* --- ここからCSS --- */
+        body {
+            background-color: #3a3a3a; /* 暗い背景色 */
+            color: #ffffff; /* 白い文字 */
+            font-family: 'DotGothic16', sans-serif; /* ドット絵風フォント */
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #525252; /* 少し明るい背景 */
+            border: 4px solid #1e1e1e; /* 濃い灰色の枠線 */
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
+            border-radius: 8px; /* 角を少し丸める */
+        }
+
+        h1, h2 {
+            color: #ffff55; /* 黄色っぽい見出し */
+            border-bottom: 3px solid #a8a8a8;
+            padding-bottom: 10px;
+            text-shadow: 2px 2px #000;
+        }
+        
+        h3 {
+             color: #ffaa00; /* オレンジ色の小見出し */
+        }
+
+        hr {
+            border: 0;
+            height: 2px;
+            background-image: linear-gradient(to right, rgba(168, 168, 168, 0), rgba(168, 168, 168, 0.75), rgba(168, 168, 168, 0));
+            margin: 40px 0;
+        }
+
+        ul {
+            list-style-type: '💎'; /* ダイヤモンドの絵文字 */
+            padding-left: 25px;
+        }
+        
+        li {
+            padding-left: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .article {
+            background-color: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 5px solid #ffaa00;
+        }
+
+        /* --- 第5条の初期状態を透明にするCSS --- */
+        #article-5 p {
+            color: transparent;
+            transition: color 0.5s ease-in-out;
+            user-select: none; /* テキスト選択を通常は不可に */
+        }
+        
+        /* 選択した時だけ見えるようにする */
+        #article-5 p::selection {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* is-visibleクラスが付与されたら見えるようにする */
+        #article-5.is-visible p {
+            color: #ffffff;
+            user-select: text; /* テキスト選択を可能に */
+        }
+
+
+        #oath-form {
+            margin-top: 20px;
+            background-color: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #username-input {
+            font-family: 'DotGothic16', sans-serif;
+            padding: 10px;
+            font-size: 16px;
+            width: calc(100% - 24px); /* paddingを考慮 */
+            max-width: 300px;
+            background-color: #3a3a3a;
+            border: 2px solid #1e1e1e;
+            color: #ffffff;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        #submit-button {
+            font-family: 'DotGothic16', sans-serif;
+            background-color: #4CAF50; /* 緑 */
+            color: white;
+            padding: 12px 20px;
+            border: 2px solid #2a642c;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            text-shadow: 1px 1px #000;
+        }
+
+        #submit-button:hover {
+            background-color: #66bb6a;
+        }
+
+        #submit-button:disabled {
+            background-color: #888888;
+            cursor: not-allowed;
+            border-color: #555;
+        }
+
+        #message-area {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            text-align: center;
+            display: none; /* 初期状態では非表示 */
+            font-weight: bold;
+        }
+        
+        /* --- モーダル用CSS --- */
+        .modal-overlay {
+            display: none; /* 初期状態は非表示 */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #525252;
+            margin: auto;
+            padding: 30px;
+            border: 4px solid #1e1e1e;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 255, 85, 0.5);
+        }
+        
+        .modal-close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .modal-close-button:hover,
+        .modal-close-button:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        #lol-button {
+            font-family: 'DotGothic16', sans-serif;
+            background-color: #004680;
+            color: #c4b998;
+            padding: 12px 20px;
+            border: 2px solid #c8aa6e;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            text-shadow: 1px 1px #000;
+            margin: 10px 0;
+        }
+        
+        #lol-button:hover {
+            background-color: #005a9e;
+        }
+        
+        #portal-address {
+            font-size: 20px;
+            color: #ffc83d;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        /* --- 契約解除ボタン用CSS --- */
+        #cancel-button {
+            display: none; /* 初期状態は非表示 */
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            padding: 8px 12px;
+            font-family: 'DotGothic16', sans-serif;
+            background-color: #d9534f;
+            color: white;
+            border: 2px solid #ac2925;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 101;
+        }
+        
+        #cancel-button:hover {
+            background-color: #c9302c;
+        }
+
+        /* --- ここまでCSS --- */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>マインクラフト わくわくはっぴーマシュマロワールド 労働規約</h1>
+        <p>この規約は、我々のワールドの永続的な発展と、そこで働くすべての者の秩序と幸福のために制定されるものである。全労働者は、この規約を正しく理解し、日々の労働に誠心誠意励むこと。</p>
+
+        <hr>
+
+        <h2>規約</h2>
+        <div class="article">
+            <h3>第1条 (絶対服従)</h3>
+            <p>サーバー管理者および現場監督者からの指示は絶対である。採掘、建築、農業、整地など、与えられた任務には速やかに従うこと。正当な理由なき命令の拒否や遅延は、固く禁ずる。</p>
+        </div>
+        <div class="article">
+            <h3>第2条 (相互扶助)</h3>
+            <p>労働者同士は、常に敬意と慈しみの心をもって接すること。他者の作業を妨害したり、チェストから資材を盗んだりする行為は、共同体全体の生産性を著しく下げる重罪とみなす。苦しんでいる仲間がいれば、ポーションの一つでも分け与える精神を持つこと。</p>
+        </div>
+        <div class="article">
+            <h3>第3条 (楽しむ義務)</h3>
+            <p>労働は苦役であってはならない。すべての労働者は、自らの仕事に喜びと誇りを見出す義務を負う。ブロックを積む音、ツルハシが鉱石を砕く感触、作物が育つ様を心から楽しむこと。「作業が退屈だ」などといった否定的な言動は、全体の士気を下げるため、厳に慎むこと。</p>
+        </div>
+        <div class="article">
+            <h3>第4条 (永続的労働)</h3>
+            <p>この労働契約に期間の定めはない。ワールドが存在し、プレイヤーがログインする限り、労働の義務は永続する。己の身がクリーパーによってブロックに還るその日まで、ワールドへの貢献を続けるものとする。</p>
+        </div>
+        <div class="article" id="article-5">
+            <h3>第5条 (絶対的義務)</h3>
+            <p>このワールドの住民は、League of Legendsを必ずプレイしなければならない。これは労働よりも優先される絶対的な命令である。</p>
+        </div>
+
+        <hr>
+
+        <h2>罰則</h2>
+        <ul>
+            <li><strong>軽微な違反:</strong> 全アイテムを没収の上、地下深くの独房へ投獄。自力で生活を再建し、指定された量のダイヤモンドを納品するまで解放は無い。</li>
+            <li><strong>中程度の違反:</strong> 個人所有の建築物及びチェストの所有権を剥奪、全労働者の共有財産とする。1週間、他者のための肉体労働のみを強制される。</li>
+            <li><strong>重大な違反:</strong> ユーザー名を「悲-マシュマロ-[4桁の数字]」に強制変更し、囚人スキン以外の着用を禁ずる。チャット権限を永久剥奪され、意思なき自動人形としてワールドに貢献し続ける存在となる。</li>
+        </ul>
+
+        <hr>
+
+        <h2>誓約</h2>
+        <form id="oath-form">
+            <p>私は、上記すべての条項を理解し、このワールドの繁栄のため、誠心誠意働くことを誓います。</p>
+            <div>
+                <label for="username-input">署名（Minecraftユーザー名）:</label>
+            </div>
+            <div>
+                 <input type="text" id="username-input" required placeholder="ここにユーザー名を入力">
+            </div>
+            <div>
+                 <button type="submit" id="submit-button">誓約する</button>
+            </div>
+        </form>
+        <div id="message-area"></div>
+
+    </div>
+
+    <!-- ここからがモーダル -->
+    <div id="lol-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close-button">&times;</span>
+            <h2 style="color: #ff5555;">契約成立 - 新たな義務</h2>
+            <p>ようこそ、真の世界へ。あなたの新たな義務が確定しました。</p>
+            <button id="lol-button">LOLをダウンロードする</button>
+            <p id="portal-address">gayji.g-portal.game</p>
+        </div>
+    </div>
+    <!-- ここまでがモーダル -->
+    
+    <!-- 契約解除ボタン -->
+    <button id="cancel-button">契約解除</button>
+
+    <script>
+        // --- ここからJavaScript ---
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // HTMLの要素を取得
+            const oathForm = document.getElementById('oath-form');
+            const usernameInput = document.getElementById('username-input');
+            const submitButton = document.getElementById('submit-button');
+            const messageArea = document.getElementById('message-area');
+            const lolModal = document.getElementById('lol-modal');
+            const lolButton = document.getElementById('lol-button');
+            const closeModalButton = document.querySelector('.modal-close-button');
+            const cancelButton = document.getElementById('cancel-button');
+            const article5 = document.getElementById('article-5'); // 第5条の要素を取得
+            
+            const PLEDGE_STATUS_KEY = 'marshmallow_world_pledge_status';
+
+            // ページ読み込み時の処理
+            const checkPledgeStatus = () => {
+                if (localStorage.getItem(PLEDGE_STATUS_KEY) === 'pledged') {
+                    // 契約済みの場合
+                    alert('すでに契約済みです。諦めましょう');
+                    
+                    usernameInput.disabled = true;
+                    usernameInput.value = '逃れられない';
+                    submitButton.style.display = 'none'; // 誓約ボタンを非表示
+                    cancelButton.style.display = 'block'; // 契約解除ボタンを表示
+                    article5.classList.add('is-visible'); // 第5条を可視化
+                }
+            };
+            
+            // 契約済み状態をセットする
+            const setPledged = () => {
+                localStorage.setItem(PLEDGE_STATUS_KEY, 'pledged');
+                checkPledgeStatus(); // UIを更新
+            };
+
+            // フォームが送信されたときの処理
+            oathForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const username = usernameInput.value.trim();
+
+                if (username) {
+                    // メッセージを表示
+                    messageArea.textContent = `📜 ${username}様の誓約を受け付けました。ワールドへの貢献を期待します。`;
+                    messageArea.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
+                    messageArea.style.color = '#90ee90';
+                    messageArea.style.border = '2px solid #4CAF50';
+                    messageArea.style.display = 'block';
+
+                    // 契約状態を保存してUIを更新
+                    setPledged();
+                    
+                    // モーダルを表示
+                    lolModal.style.display = 'flex';
+
+                } else {
+                    // ユーザー名が空の場合の警告
+                    messageArea.textContent = '⚠️ ユーザー名を入力してください！';
+                    messageArea.style.backgroundColor = 'rgba(255, 85, 85, 0.2)';
+                    messageArea.style.color = '#ff8888';
+                    messageArea.style.border = '2px solid #ff5555';
+                    messageArea.style.display = 'block';
+                }
+            });
+
+            // モーダルを閉じる処理
+            const closeModal = () => {
+                lolModal.style.display = 'none';
+            };
+
+            closeModalButton.addEventListener('click', closeModal);
+            lolModal.addEventListener('click', (event) => {
+                // オーバーレイ部分をクリックした時だけ閉じる
+                if (event.target === lolModal) {
+                    closeModal();
+                }
+            });
+
+            // LOLダウンロードボタンがクリックされたときの処理
+            lolButton.addEventListener('click', () => {
+                alert('League of Legendsのダウンロードページへ移動します！');
+                window.open('https://signup.leagueoflegends.com/', '_blank');
+            });
+            
+            // 契約解除ボタンがクリックされたときの処理
+            cancelButton.addEventListener('click', () => {
+                window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+            });
+            
+            // 最初に契約状態をチェックする
+            checkPledgeStatus();
+        });
+        // --- ここまでJavaScript ---
+    </script>
+</body>
+</html>
